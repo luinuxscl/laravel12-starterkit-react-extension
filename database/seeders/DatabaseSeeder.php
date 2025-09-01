@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,11 +19,18 @@ class DatabaseSeeder extends Seeder
             BaseSystemSeeder::class,
         ]);
 
-        // Datos de ejemplo mínimos (opcional)
-        // User::factory(10)->create();
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // Usuario inicial solo en entornos local / testing
+        if (app()->environment(['local', 'testing'])) {
+            $user = User::firstOrCreate(
+                ['email' => 'admin@local.test'],
+                [
+                    'name' => 'Local Admin',
+                    'password' => Hash::make('password'),
+                ]
+            );
+
+            // Asignar rol "admin" (creado por BaseSystemSeeder)
+            $user->syncRoles(['admin']);
+        }
     }
 }
