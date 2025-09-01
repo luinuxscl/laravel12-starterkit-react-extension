@@ -16,19 +16,6 @@ auto_execution_mode: 1
 - Verificar componentes existentes antes de crear nuevos
   </shadcn_standards>
 
-<tailwind_v4_syntax>
-
-- Usar @import "tailwindcss"; NO @tailwind directives
-- Utilities deprecated reemplazadas:
-    - bg-opacity-_ → bg-black/_
-    - text-opacity-_ → text-black/_
-    - flex-shrink-_ → shrink-_
-    - flex-grow-_ → grow-_
-    - overflow-ellipsis → text-ellipsis
-- Opacity values siguen siendo numéricos
-- corePlugins NO soportado en v4
-  </tailwind_v4_syntax>
-
 <spacing_patterns>
 
 - Usar gap utilities para spacing, NO margins
