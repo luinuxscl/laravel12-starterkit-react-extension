@@ -30,10 +30,10 @@ _Objetivo: Establecer fundamentos sólidos_
 
 #### 1.3 Quality Gates
 
-- [ ] **CI/CD pipeline**: GitHub Actions con testing automático usando Pest
+- [x] **CI/CD pipeline**: GitHub Actions con testing automático usando Pest
 - [ ] **Code quality**: Pre-commit hooks (Pint ya disponible, tests automáticos)
-- [ ] **Documentation**: README inicial con setup instructions
-- [ ] **Linters Frontend**: ESLint + Prettier integrados y verificados en CI (React 19 + TypeScript)
+- [x] **Documentation**: README inicial con setup instructions
+- [x] **Linters Frontend**: ESLint + Prettier integrados y verificados en CI (React 19 + TypeScript)
 
 **Entregables Fase 1:**
 
@@ -51,10 +51,10 @@ _Objetivo: Implementar gestión avanzada de roles y permisos_
 
 #### 2.1 Spatie Permission Integration
 
-- [ ] **Instalación**: `composer require spatie/laravel-permission`
-- [ ] **Migraciones**: Crear estructura de roles y permisos
-- [ ] **Seeders**: BaseSystemSeeder con roles (root, admin, standard)
-- [ ] **Models**: Extender User model con traits de permission
+- [x] **Instalación**: `composer require spatie/laravel-permission`
+- [x] **Migraciones**: Crear estructura de roles y permisos
+- [x] **Seeders**: BaseSystemSeeder con roles (root, admin, standard)
+- [x] **Models**: Extender User model con traits de permission
 
 #### 2.2 Backend Implementation
 
