@@ -53,6 +53,9 @@ Usuarios demo creados con `--dev` (password: `password`, solo dev):
 
 ## CI/CD
 Actualmente desactivado para desarrollo individual. Flujo local recomendado en `docs/ci-cd.md`.
+- Workflows disponibles (cuando se habiliten):
+  - `.github/workflows/tests.yml`: PHP 8.3, Node 22, DB SQLite, migra y corre Pest
+  - `.github/workflows/lint.yml`: Pint + Prettier + ESLint, `npm ci` determinístico
 
 ## Roles y Permisos (Spatie)
 - Paquete: `spatie/laravel-permission` integrado.
@@ -89,7 +92,6 @@ Route::get('admin-only', function () {
 
 ## Roadmap
 Ver `ROADMAP.md`. Trabajo por fases (F1–F6). Issues vinculadas en GitHub.
-
 ## Documentación
 - `docs/permissions.md`: Roles y permisos (Spatie)
 - `docs/testing.md`: Testing (Pest, coverage, component tests)
