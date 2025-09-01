@@ -8,7 +8,7 @@ Crear una extensión robusta y enterprise-ready del Laravel 12 React Starter Kit
 
 ## 📋 Fases del Proyecto
 
-### **Fase 1: Setup & Configuración Base** (Semana 1)
+### **Fase 1: Setup & Configuración Base** [#3](https://github.com/luinuxscl/laravel12-starterkit-react-extension/issues/3)
 
 _Objetivo: Establecer fundamentos sólidos_
 
@@ -45,7 +45,7 @@ _Objetivo: Establecer fundamentos sólidos_
 
 ---
 
-### **Fase 2: Sistema de Autenticación Extendido** (Semana 2)
+### **Fase 2: Sistema de Autenticación Extendido** [#4](https://github.com/luinuxscl/laravel12-starterkit-react-extension/issues/4)
 
 _Objetivo: Implementar gestión avanzada de roles y permisos_
 
@@ -86,7 +86,7 @@ _Objetivo: Implementar gestión avanzada de roles y permisos_
 
 ---
 
-### **Fase 3: Localización Multiidioma** (Semana 3)
+### **Fase 3: Localización Multiidioma** [#5](https://github.com/luinuxscl/laravel12-starterkit-react-extension/issues/5)
 
 _Objetivo: Soporte completo para inglés y español por usuario_
 
@@ -126,7 +126,7 @@ _Objetivo: Soporte completo para inglés y español por usuario_
 
 ---
 
-### **Fase 4: Comandos de Sistema & Automatización** (Semana 4)
+### **Fase 4: Comandos de Sistema & Automatización** [#6](https://github.com/luinuxscl/laravel12-starterkit-react-extension/issues/6)
 
 _Objetivo: Herramientas de administración y operación_
 
@@ -166,7 +166,7 @@ _Objetivo: Herramientas de administración y operación_
 
 ---
 
-### **Fase 5: Advanced Features & Optimización** (Semana 5)
+### **Fase 5: Advanced Features & Optimización** [#7](https://github.com/luinuxscl/laravel12-starterkit-react-extension/issues/7)
 
 _Objetivo: Funcionalidades avanzadas y optimización de performance_
 
@@ -210,7 +210,7 @@ _Objetivo: Funcionalidades avanzadas y optimización de performance_
 
 ---
 
-### **Fase 6: Deployment & Production** (Semana 6)
+### **Fase 6: Deployment & Production** [#8](https://github.com/luinuxscl/laravel12-starterkit-react-extension/issues/8)
 
 _Objetivo: Preparación para producción y deployment_
 
@@ -331,16 +331,14 @@ _Objetivo: Preparación para producción y deployment_
 
 ## 📅 Timeline Summary
 
-| Fase | Duración | Entregables Clave                      |
-| ---- | -------- | -------------------------------------- |
-| 1    | Semana 1 | Setup base + herramientas configuradas |
-| 2    | Semana 2 | Sistema completo de roles y permisos   |
-| 3    | Semana 3 | Localización multiidioma funcionando   |
-| 4    | Semana 4 | Comandos de sistema y automatización   |
-| 5    | Semana 5 | Features avanzadas + optimización      |
-| 6    | Semana 6 | Production ready + deployment          |
-
-**Total**: 6 semanas para MVP enterprise-ready
+| Fase | Entregables Clave                      |
+| ---- | -------------------------------------- |
+| 1    | Setup base + herramientas configuradas |
+| 2    | Sistema completo de roles y permisos   |
+| 3    | Localización multiidioma funcionando   |
+| 4    | Comandos de sistema y automatización   |
+| 5    | Features avanzadas + optimización      |
+| 6    | Production ready + deployment          |
 
 ---
 
