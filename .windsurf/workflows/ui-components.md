@@ -13,42 +13,45 @@ auto_execution_mode: 1
 - Usar proper semantic HTML
 - Implementar proper accessibility attributes
 - Definir variants usando class-variance-authority
+- Verificar componentes existentes antes de crear nuevos
   </shadcn_standards>
 
-<component_composition>
+<tailwind_v4_syntax>
 
-- Componer components complejos desde primitivos
-- Usar compound component patterns cuando apropiado
-- Implementar proper forwarding refs
-- Definir proper default props
-- Usar proper component composition
-- Implementar proper polymorphic components
-  </component_composition>
+- Usar @import "tailwindcss"; NO @tailwind directives
+- Utilities deprecated reemplazadas:
+    - bg-opacity-_ → bg-black/_
+    - text-opacity-_ → text-black/_
+    - flex-shrink-_ → shrink-_
+    - flex-grow-_ → grow-_
+    - overflow-ellipsis → text-ellipsis
+- Opacity values siguen siendo numéricos
+- corePlugins NO soportado en v4
+  </tailwind_v4_syntax>
 
-<tailwind_usage>
+<spacing_patterns>
 
-- Usar Tailwind 4 syntax y features
-- Definir custom utilities en `tailwind.config.js`
-- Usar CSS variables para theming
-- Implementar proper responsive design
-- Usar proper spacing scales
-- Definir proper color palettes
-  </tailwind_usage>
+- Usar gap utilities para spacing, NO margins
+- Ejemplo: <div class="flex gap-8"> en lugar de margins
+- Pensar en class placement, order, priority
+- Remover clases redundantes
+- Agrupar elementos lógicamente
+  </spacing_patterns>
 
-<accessibility>
-- Implementar proper ARIA labels
-- Usar semantic HTML elements
-- Definir proper focus management
-- Implementar keyboard navigation
-- Usar proper color contrast
-- Definir proper screen reader support
-</accessibility>
+<dark_mode>
 
-<theming>
-- Usar CSS variables para colors
-- Implementar dark/light mode support
-- Definir proper theme switching
+- Si páginas existentes soportan dark mode, nuevas páginas DEBEN soportarlo
+- Usar dark: prefix para styles de dark mode
+- Mantener consistency con theme switching existente
 - Usar proper system preference detection
-- Implement proper theme persistence
-- Definir consistent spacing/sizing
-</theming>
+  </dark_mode>
+
+<component_patterns>
+
+- Extraer patrones repetidos en components
+- Un component por archivo
+- Usar PascalCase para nombres
+- Props interface = ComponentName + 'Props'
+- Default exports para componentes principales
+- Implementar proper forwarding refs
+  </component_patterns>
