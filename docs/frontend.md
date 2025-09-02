@@ -40,3 +40,14 @@ Guía rápida para el frontend del starter kit.
 - CSRF automático con Inertia/Laravel
 - Validaciones en backend + feedback en UI
 - Autorización en Policies y gates (no en componentes)
+
+## Datos de usuarios (UserResource)
+- El backend expone usuarios mediante `App\\Http\\Resources\\UserResource`.
+- Estructura estándar para cada usuario:
+  - `id: number`
+  - `name: string`
+  - `email: string`
+- Listado paginado (`users.index`): prop `users` incluye:
+  - `data: User[]`
+  - `links: PaginationLink[]` y metadatos habituales de Laravel
+- Detalle (`users.show` y `users.edit`): prop `user: User` con la estructura anterior.
