@@ -2,6 +2,7 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type Auth, type BreadcrumbItem } from '@/types';
+import { hasAnyRole } from '@/lib/auth';
 import { Head, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -13,7 +14,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Dashboard() {
     const { auth } = usePage<{ auth: Auth }>().props;
-    const roles = auth?.roles ?? [];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -37,9 +37,9 @@ export default function Dashboard() {
                 {/* Roles actuales */}
                 <div className="rounded-md border border-sidebar-border/70 p-4 text-sm dark:border-sidebar-border">
                     <div className="mb-2 font-medium">Tus roles</div>
-                    {roles.length > 0 ? (
+                    {(auth?.roles?.length ?? 0) > 0 ? (
                         <div className="flex flex-wrap gap-2">
-                            {roles.map((r) => (
+                            {(auth?.roles ?? []).map((r) => (
                                 <span
                                     key={r}
                                     className="inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium text-foreground/90 border-sidebar-border/70 dark:border-sidebar-border"
@@ -54,7 +54,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Gate simple por rol */}
-                {(roles.includes('admin') || roles.includes('root')) && (
+                {hasAnyRole(auth, ['admin', 'root']) && (
                     <div className="rounded-md border border-emerald-500/40 bg-emerald-500/5 p-4 text-sm">
                         <div className="font-medium text-emerald-600 dark:text-emerald-400">Sección visible solo para admin/root</div>
                         <p className="mt-1 text-foreground/70">
