@@ -1,24 +1,29 @@
 import AppLayout from '@/layouts/app-layout'
 import { hasAnyRole } from '@/lib/auth'
+import type { Auth } from '@/types'
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
 import React from 'react'
 
 type UserItem = { id: number; name: string; email: string }
 
 type PageProps = {
-  auth: { user: { id: number } | null; roles: string[] }
+  auth: Auth
   user: UserItem
+  roles?: string[]
+  userRoles?: string[]
 }
 
 export default function UsersEdit({ user }: { user: UserItem }) {
-  const { auth } = usePage<PageProps>().props
+  const { auth, roles = [], userRoles = [] } = usePage<PageProps>().props
   const { data, setData, patch, processing, errors } = useForm({
     name: user.name,
     email: user.email,
     password: '',
+    roles: userRoles as string[],
   })
 
   const canEdit = hasAnyRole(auth, ['admin', 'root']) || auth.user?.id === user.id
+  const canManageRoles = hasAnyRole(auth, ['admin', 'root'])
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -72,6 +77,35 @@ export default function UsersEdit({ user }: { user: UserItem }) {
             />
             {errors.password && <div className="mt-1 text-sm text-red-600">{errors.password}</div>}
           </div>
+
+          {canManageRoles && (
+            <div>
+              <label className="block text-sm font-medium">Roles</label>
+              <div className="mt-2 flex flex-wrap gap-3">
+                {roles.map((r) => {
+                  const checked = (data.roles as string[]).includes(r)
+                  return (
+                    <label key={r} className="inline-flex items-center gap-2 text-sm">
+                      <input
+                        type="checkbox"
+                        className="h-4 w-4"
+                        checked={checked}
+                        onChange={(e) => {
+                          const next = new Set(data.roles as string[])
+                          if (e.target.checked) next.add(r)
+                          else next.delete(r)
+                          setData('roles', Array.from(next))
+                        }}
+                      />
+                      <span className="capitalize">{r}</span>
+                    </label>
+                  )
+                })}
+              </div>
+              {errors.roles && <div className="mt-1 text-sm text-red-600">{String(errors.roles)}</div>}
+            </div>
+          )}
+
           <button disabled={processing} className="rounded bg-blue-600 px-4 py-2 text-white disabled:opacity-50">
             Guardar cambios
           </button>

@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Permission\Models\Role;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -62,15 +65,17 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8'],
-        ]);
+        $data = $request->validated();
 
-        User::create($data);
+        $user = User::create($data);
+
+        // Sync roles on create if actor is admin/root
+        $acting = $request->user();
+        if ($request->has('roles') && $acting && ($acting->hasRole('admin') || $acting->hasRole('root'))) {
+            $user->syncRoles($data['roles'] ?? []);
+        }
 
         return redirect()->route('users.index')->with('success', 'Usuario creado');
     }
@@ -92,25 +97,34 @@ class UserController extends Controller
     {
         return Inertia::render('users/edit', [
             'user' => $user->only(['id', 'name', 'email']),
+            'roles' => Role::query()->orderBy('name')->pluck('name'),
+            'userRoles' => $user->getRoleNames(),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
-            'password' => ['nullable', 'string', 'min:8'],
-        ]);
+        $data = $request->validated();
 
         if (empty($data['password'])) {
             unset($data['password']);
         }
 
         $user->update($data);
+
+        // Sync roles only if the acting user is admin/root
+        $acting = $request->user();
+        if ($request->has('roles') && $acting && ($acting->hasRole('admin') || $acting->hasRole('root'))) {
+            // Non-root cannot change roles of a root user
+            if ($user->hasRole('root') && ! $acting->hasRole('root')) {
+                abort(403, 'No autorizado a modificar roles de un usuario root');
+            }
+
+            $user->syncRoles($data['roles'] ?? []);
+        }
 
         return redirect()->route('users.show', $user)->with('success', 'Usuario actualizado');
     }

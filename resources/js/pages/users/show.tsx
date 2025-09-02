@@ -1,16 +1,18 @@
 import AppLayout from '@/layouts/app-layout'
 import { hasAnyRole } from '@/lib/auth'
+import type { Auth } from '@/types'
 import { Head, Link, usePage } from '@inertiajs/react'
 
 type UserItem = { id: number; name: string; email: string }
 
 type PageProps = {
-  auth: { user: { id: number } | null; roles: string[] }
+  auth: Auth
   user: UserItem
+  flash?: { success?: string; error?: string }
 }
 
 export default function UsersShow({ user }: { user: UserItem }) {
-  const { auth } = usePage<PageProps>().props
+  const { auth, flash } = usePage<PageProps>().props
 
   return (
     <AppLayout>
@@ -36,6 +38,12 @@ export default function UsersShow({ user }: { user: UserItem }) {
             )}
           </div>
         </div>
+        {flash?.success && (
+          <div className="rounded border border-green-300 bg-green-50 px-3 py-2 text-sm text-green-800 dark:border-green-800 dark:bg-green-950/30 dark:text-green-300">
+            {flash.success}
+          </div>
+        )}
+
         <div className="rounded border p-4">
           <div className="text-sm text-gray-500">ID</div>
           <div className="mb-3 font-medium">{user.id}</div>

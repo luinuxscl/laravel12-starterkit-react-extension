@@ -59,21 +59,21 @@ _Objetivo: Implementar gestión avanzada de roles y permisos_
 #### 2.2 Backend Implementation
 
 - [ ] **Middleware**: Role-based access control
-- [ ] **Policies**: Authorization granular por recursos
-- [ ] **Controllers**: UserController con gestión de roles
-- [ ] **Form Requests**: Validación de roles y permisos
+- [x] **Policies**: Authorization granular por recursos (UserPolicy aplicada via authorizeResource)
+- [x] **Controllers**: UserController con gestión de roles (búsqueda, paginación, ordenamiento, syncRoles con reglas de root)
+- [x] **Form Requests**: Validación de roles y permisos (StoreUserRequest, UpdateUserRequest)
 - [ ] **Resources**: API responses para gestión de usuarios
 
 #### 2.3 Frontend Components
 
-- [ ] **Role Management**: Componentes para asignar roles
-- [ ] **Permission Gates**: Conditional rendering basado en permisos
+- [x] **Role Management**: Componentes para asignar roles (UI en `users/edit.tsx` con checkboxes para admin/root)
+- [ ] **Permission Gates**: Conditional rendering basado en permisos (parcial: helpers `hasAnyRole` en vistas de usuarios)
 - [ ] **User Dashboard**: Panel de administración de usuarios
-- [ ] **Access Control**: UI responsive a permisos del usuario actual
+- [x] **Access Control**: UI responsive a permisos del usuario actual (oculta acciones según roles/propietario)
 
 #### 2.4 Testing
 
-- [ ] **Feature Tests**: Workflows completos de autorización
+- [ ] **Feature Tests**: Workflows completos de autorización (parcial: rutas y operaciones básicas de usuarios en verde)
 - [ ] **Browser Tests**: Interfaz de gestión de usuarios (Pest v4)
 - [ ] **Unit Tests**: Logic de roles y permisos
 - [ ] **Policy Tests**: Authorization scenarios
