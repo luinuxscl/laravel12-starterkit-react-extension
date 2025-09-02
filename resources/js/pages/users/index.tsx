@@ -1,6 +1,7 @@
 import AppLayout from '@/layouts/app-layout'
 import type { Auth } from '@/types'
 import { hasAnyRole } from '@/lib/auth'
+import { routes } from '@/lib/routes'
 import { Head, Link, usePage, router } from '@inertiajs/react'
 import { useMemo, useState } from 'react'
 
@@ -25,13 +26,13 @@ export default function UsersIndex({ users, filters }: { users: Paginated<UserIt
 
   const onSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    router.get('/users', { q, sort: filters?.sort, dir: filters?.dir }, { preserveState: true, replace: true })
+    router.get(routes.users.index(), { q, sort: filters?.sort, dir: filters?.dir }, { preserveState: true, replace: true })
   }
 
   const onDelete = (u: UserItem) => {
     if (!confirm(`¿Eliminar a ${u.name}? Esta acción no se puede deshacer.`)) return
     setDeletingId(u.id)
-    router.delete(`/users/${u.id}`, {
+    router.delete(routes.users.delete(u.id), {
       preserveScroll: true,
       onFinish: () => setDeletingId(null),
     })
@@ -39,7 +40,7 @@ export default function UsersIndex({ users, filters }: { users: Paginated<UserIt
 
   const toggleSort = (column: 'name' | 'email') => {
     const nextDir: 'asc' | 'desc' = filters?.sort === column && filters?.dir === 'asc' ? 'desc' : 'asc'
-    router.get('/users', { q: filters?.q ?? '', sort: column, dir: nextDir }, { preserveState: true, replace: true })
+    router.get(routes.users.index(), { q: filters?.q ?? '', sort: column, dir: nextDir }, { preserveState: true, replace: true })
   }
 
   return (
@@ -60,7 +61,7 @@ export default function UsersIndex({ users, filters }: { users: Paginated<UserIt
             </button>
           </form>
           {canManage && (
-            <Link href="/users/create" className="text-blue-600 hover:underline whitespace-nowrap">
+            <Link href={routes.users.create()} className="text-blue-600 hover:underline whitespace-nowrap">
               Crear
             </Link>
           )}
@@ -94,11 +95,11 @@ export default function UsersIndex({ users, filters }: { users: Paginated<UserIt
                   <td className="px-3 py-2">{u.email}</td>
                   <td className="px-3 py-2">
                     <div className="flex items-center gap-3">
-                      <Link href={`/users/${u.id}`} className="text-blue-600 hover:underline">
+                      <Link href={routes.users.show(u.id)} className="text-blue-600 hover:underline">
                         Ver
                       </Link>
                       {(canManage || auth.user?.id === u.id) && (
-                        <Link href={`/users/${u.id}/edit`} className="text-blue-600 hover:underline">
+                        <Link href={routes.users.edit(u.id)} className="text-blue-600 hover:underline">
                           Editar
                         </Link>
                       )}

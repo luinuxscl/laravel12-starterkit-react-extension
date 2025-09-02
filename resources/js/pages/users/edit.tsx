@@ -1,6 +1,7 @@
 import AppLayout from '@/layouts/app-layout'
 import { hasAnyRole } from '@/lib/auth'
 import type { Auth } from '@/types'
+import { routes } from '@/lib/routes'
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
 import React from 'react'
 
@@ -27,7 +28,7 @@ export default function UsersEdit({ user }: { user: UserItem }) {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    patch(`/users/${user.id}`)
+    patch(routes.users.show(user.id))
   }
 
   return (
@@ -36,7 +37,7 @@ export default function UsersEdit({ user }: { user: UserItem }) {
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold">Editar usuario</h1>
-          <Link href={`/users/${user.id}`} className="text-blue-600 hover:underline">
+          <Link href={routes.users.show(user.id)} className="text-blue-600 hover:underline">
             Volver
           </Link>
         </div>

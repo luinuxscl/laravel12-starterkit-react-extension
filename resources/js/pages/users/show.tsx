@@ -1,6 +1,7 @@
 import AppLayout from '@/layouts/app-layout'
 import { hasAnyRole } from '@/lib/auth'
 import type { Auth } from '@/types'
+import { routes } from '@/lib/routes'
 import { Head, Link, usePage } from '@inertiajs/react'
 
 type UserItem = { id: number; name: string; email: string }
@@ -22,7 +23,7 @@ export default function UsersShow({ user }: { user: UserItem }) {
           <h1 className="text-2xl font-semibold">{user.name}</h1>
           <div className="flex gap-3">
             {(hasAnyRole(auth, ['admin', 'root']) || auth.user?.id === user.id) && (
-              <Link href={`/users/${user.id}/edit`} className="text-blue-600 hover:underline">
+              <Link href={routes.users.edit(user.id)} className="text-blue-600 hover:underline">
                 Editar
               </Link>
             )}
@@ -30,7 +31,7 @@ export default function UsersShow({ user }: { user: UserItem }) {
               <Link
                 as="button"
                 method="delete"
-                href={`/users/${user.id}`}
+                href={routes.users.delete(user.id)}
                 className="text-red-600 hover:underline"
               >
                 Eliminar
