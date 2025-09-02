@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -42,7 +43,8 @@ class UserController extends Controller
             ->select(['id', 'name', 'email'])
             ->orderBy($sort, $dir)
             ->paginate(10)
-            ->withQueryString();
+            ->withQueryString()
+            ->through(fn ($user) => new UserResource($user));
 
         return Inertia::render('users/index', [
             'users' => $users,
@@ -92,7 +94,7 @@ class UserController extends Controller
     public function show(User $user): Response
     {
         return Inertia::render('users/show', [
-            'user' => $user->only(['id', 'name', 'email']),
+            'user' => new UserResource($user),
         ]);
     }
 
@@ -102,7 +104,7 @@ class UserController extends Controller
     public function edit(User $user): Response
     {
         return Inertia::render('users/edit', [
-            'user' => $user->only(['id', 'name', 'email']),
+            'user' => new UserResource($user),
             'roles' => Role::query()->orderBy('name')->pluck('name'),
             'userRoles' => $user->getRoleNames(),
         ]);
