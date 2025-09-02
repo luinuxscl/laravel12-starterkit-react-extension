@@ -83,7 +83,7 @@ class UserController extends Controller
             $user->syncRoles($data['roles'] ?? []);
         }
 
-        return redirect()->route('users.index')->with('success', 'Usuario creado');
+        return redirect()->route('users.index')->with('flash.success', 'Usuario creado');
     }
 
     /**
@@ -137,7 +137,7 @@ class UserController extends Controller
             $user->syncRoles($data['roles'] ?? []);
         }
 
-        return redirect()->route('users.show', $user)->with('success', 'Usuario actualizado');
+        return redirect()->route('users.show', $user)->with('flash.success', 'Usuario actualizado');
     }
 
     /**
@@ -147,6 +147,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'Usuario eliminado');
+        return redirect()->route('users.index')->with('flash.success', 'Usuario eliminado');
     }
 }
