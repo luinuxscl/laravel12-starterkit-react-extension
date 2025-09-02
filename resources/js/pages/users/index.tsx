@@ -67,11 +67,7 @@ export default function UsersIndex({ users, filters }: { users: Paginated<UserIt
           )}
         </div>
 
-        {flash?.success && (
-          <div className="rounded border border-green-300 bg-green-50 px-3 py-2 text-sm text-green-800 dark:border-green-800 dark:bg-green-950/30 dark:text-green-300">
-            {flash.success}
-          </div>
-        )}
+        {/* Toasts globales mostrarán flash; se elimina banner local */}
 
         <div className="overflow-x-auto rounded border">
           <table className="w-full text-left text-sm">
