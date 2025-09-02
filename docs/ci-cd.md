@@ -22,3 +22,39 @@ Este proyecto está en desarrollo y se trabaja en modalidad individual, por lo q
 
 ## Nota
 Cuando el proyecto avance a QA/producción, se recomienda reactivar CI con el pipeline unificado y checks mínimos.
+
+## Estrategia anti-conflictos (v1)
+
+Flujo en serie, sin ramas paralelas por defecto. Pensado para ciclos de horas.
+
+- Objetivo: features pequeñas, PRs cortos, divergencia mínima.
+- Rama base: `main`.
+
+### Operativa
+- Crear rama desde `main` recién actualizado:
+  - `git checkout main && git pull`
+  - `git checkout -b feature/mi-feature`
+- Abrir PR como draft al iniciar; pushear temprano y frecuente.
+- Documentación durante el feature en `docs/*`; evitar tocar `README.md` salvo al cerrar fase.
+- Antes de cada push/merge:
+  - `git fetch origin && git rebase origin/main`
+- Tests locales obligatorios:
+  - `vendor/bin/pint --test`
+  - `npm run lint`
+  - `./vendor/bin/pest`
+- Merge: “Squash and merge”, borrar rama, siguiente feature.
+
+### Reglas Git
+- Rebase por defecto y estado limpio:
+  - `git config --global pull.rebase true`
+  - `git config --global rebase.autoStash true`
+  - `git config --global rerere.enabled true`
+- Fast-forward-only hacia `main` (para merges locales):
+  - Alias recomendado: `git config --global alias.ffmerge "merge --ff-only"`
+
+### Separación de cambios para evitar colisiones
+- Evitar editar `README.md` en múltiples features. Centralizar en un PR de cierre de fase.
+- No mezclar cambios de dependencias/lockfiles con código; usar PR dedicado cuando corresponda.
+- Evitar refactors masivos en paralelo a features; planificar ventana y PR exclusivos.
+
+Con este enfoque, los conflictos tienden a cero porque reducimos la divergencia temporal y aislamos archivos de alta colisión.

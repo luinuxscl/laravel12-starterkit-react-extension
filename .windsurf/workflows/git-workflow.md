@@ -19,11 +19,10 @@ auto_execution_mode: 1
 
 <branch_strategy>
 
-- main: código estable para releases (solo cuando corresponda)
-- develop: rama troncal de integración (commits directos permitidos para cambios pequeños)
-- feature/*: para features medianas/grandes (1 PR a la vez)
-- fix/*: bug fixes
-- hotfix/*: fixes de producción (cuando exista producción)
+- main: rama base única para trabajo en serie (estrategia v1)
+- feature/*: una feature pequeña a la vez; PR corto (draft desde el inicio)
+- fix/*: bug fixes puntuales
+- hotfix/*: solo si hay producción
 - Convención de nombres: kebab-case claro y corto (ej. `feature/policies-crud`)
   </branch_strategy>
 
@@ -50,9 +49,23 @@ auto_execution_mode: 1
 
 <solo_dev_flow>
 
-- Cambios pequeños: commit directo a `develop` (Conventional Commits)
-- Cambios medianos/grandes: `feature/*` → PR opcional hacia `develop`
-- No acumular PRs: mergear/cerrar antes de abrir otro
-- Documentación: actualizar en `docs/*` y enlazar desde `README.md`
-- Releases: cuando aplique, cortar release desde `develop` a `main` con tag
+- Flujo en serie: `main` → `feature/*` → PR (draft) → tests → squash merge → borrar rama
+- Crear rama siempre desde `main` actualizado (`git checkout main && git pull`)
+- Pushear temprano; actualizar el PR draft con contexto
+- Documentar durante el feature en `docs/*`; evitar `README.md` hasta cierre de fase
+- Antes de push/merge: `git fetch origin && git rebase origin/main`
+- Tras merge: empezar la siguiente feature desde `main`
   </solo_dev_flow>
+
+<anti_conflicts_v1>
+
+- Config Git recomendada (global):
+  - `git config --global pull.rebase true`
+  - `git config --global rebase.autoStash true`
+  - `git config --global rerere.enabled true`
+  - `git config --global alias.ffmerge "merge --ff-only"`
+- Evitar ramas paralelas salvo casos puntuales (experimentos/hotfix)
+- No mezclar cambios de dependencias/lockfiles con código funcional
+- Evitar refactors masivos en paralelo a features; planificar PR dedicado
+- Merge por “Squash and merge” en GitHub para mantener historial atómico
+  </anti_conflicts_v1>
