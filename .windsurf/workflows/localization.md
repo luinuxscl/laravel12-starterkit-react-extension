@@ -3,53 +3,44 @@ description: Localization & Multi-language Rules
 auto_execution_mode: 1
 ---
 
-# Localization & Multi-language Rules
+# Console Commands Development Rules
 
-<locale_setup>
+<command_creation>
 
-- Idiomas soportados: inglés (en) como default, español (es)
-- Estructura: lang/en/, lang/es/ para traducciones de sistema
-- Base de datos: user_settings table para preferencias por usuario
-- Middleware: DetectUserLocale para setear idioma por usuario
-- Fallback: inglés siempre como idioma de respaldo
-  </locale_setup>
+- Usar php artisan make:command como base
+- Nombrar comandos con namespace: app:install, system:backup, users:promote
+- Definir signature clara con argumentos y opciones
+- Implementar proper error handling y feedback
+- Usar progress bars para operaciones largas
+- Definir proper exit codes (0 = success, 1+ = error)
+  </command_creation>
 
-<translation_patterns>
+<installation_command>
 
-- Usar \_\_('key') para traducciones simples
-- Usar trans_choice() para pluralización
-- Organizaciones por archivos: auth.php, validation.php, etc.
-- Keys descriptivos: 'auth.login.title' no 'login_title'
-- Pasar parámetros: \_\_('welcome.message', ['name' => $user->name])
-- Usar JSON translations para strings dinámicos del frontend
-  </translation_patterns>
+- php artisan app:install como comando principal
+- Ejecutar migrate:fresh, db:seed, optimizations
+- Crear usuario root si no existe
+- Configurar permisos y cache
+- Mostrar información de instalación completada
+- Permitir flags: --demo-data, --reset-permissions, etc.
+  </installation_command>
 
-<frontend_localization>
+<system_commands>
 
-- Usar @lang() en Blade templates
-- Implementar useLang() hook para React components
-- Compartir translations via Inertia::share()
-- Usar route() helper considerando locale en URLs
-- Implementar language switcher component
-- Cache translations en frontend para performance
-  </frontend_localization>
+- app:backup: respaldo completo del sistema
+- system:optimize: optimizaciones de performance
+- users:promote {user} --role={role}: gestión de roles
+- cache:warm: pre-cargar caches críticos
+- queue:monitor: monitoreo de colas
+- logs:cleanup --days={days}: limpieza de logs
+  </system_commands>
 
-<user_preferences>
+<command_patterns>
 
-- Campo locale en users table (nullable, default null)
-- Middleware ejecutar antes de auth middleware
-- Permitir cambio de idioma sin recargar página
-- Persistir preferencia en base de datos al cambiar
-- Considerar timezone junto con locale
-- Implementar API endpoint para actualizar preferencias
-  </user_preferences>
-
-<seo_considerations>
-
-- URLs con prefijo de idioma opcional: /en/posts, /es/posts
-- Meta tags hreflang para SEO multiidioma
-- Sitemap XML por idioma
-- Consistent URL structure entre idiomas
-- Proper canonical URLs
-- Schema.org markup con idioma correcto
-  </seo_considerations>
+- Usar dependency injection en constructores
+- Implementar proper validation de inputs
+- Definir descriptive help text
+- Usar proper output formatting (info, error, warn, line)
+- Implementar confirmation prompts para acciones destructivas
+- Log todas las operaciones críticas
+  </command_patterns>

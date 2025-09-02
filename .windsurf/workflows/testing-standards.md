@@ -7,23 +7,51 @@ auto_execution_mode: 1
 
 <testing_structure>
 
-- Usar Pest para backend testing (más expresivo que PHPUnit)
-- Implementar Vitest para frontend testing
-- Definir proper test organization
-- Usar proper test naming conventions
-- Implementar test databases apropiadas
-- Definir proper test data setup/teardown
+- Pest v4 YA ESTÁ CONFIGURADO desde la instalación limpia
+- NO requiere instalación manual - viene integrado con el starter kit
+- Tests Feature en tests/Feature/
+- Tests Unit en tests/Unit/
+- Browser tests en tests/Browser/ (capacidad Pest v4)
+- tests/Pest.php ya configurado con RefreshDatabase por defecto
+- TODO cambio debe tener test programático
   </testing_structure>
 
-<pest_setup>
+<pest_v4_ready_features>
 
-- Instalar: composer require pestphp/pest-plugin-laravel --dev
-- Inicializar: php artisan pest:install
-- Generar tests: php artisan pest:test UserTest --feature
-- Usar describe/it patterns para mejor legibilidad
-- Implementar proper dataset testing
-- Definir custom expectations cuando sea necesario
-  </pest_setup>
+- Browser testing: tests/Browser/ para interacciones reales
+- Architecture testing: pest-plugin-arch para arquitectura
+- Mutation testing: pest-plugin-mutate para quality
+- Laravel integration: pest-plugin-laravel con helpers
+- Parallel testing: paratest v7.12.0 ya incluido
+- Type coverage: verificar tipos TypeScript
+  </pest_v4_ready_features>
+
+<immediate_usage>
+
+- php artisan test: ejecutar todos los tests
+- php artisan test --parallel: tests en paralelo
+- php artisan test tests/Feature/ExampleTest.php: archivo específico
+- php artisan test --filter=testName: test específico
+- Tests ya migrados desde PHPUnit automáticamente
+  </immediate_usage>
+
+<browser_testing>
+
+- Crear tests en tests/Browser/ usando visit() function
+- Interactuar: click, type, scroll, select, submit, drag-and-drop
+- Verificar: assertSee, assertNoJavascriptErrors, assertNoConsoleLogs
+- Usar model factories y RefreshDatabase (ya configurado)
+- Test en múltiples browsers cuando sea necesario
+  </browser_testing>
+
+<pest_patterns>
+
+- Usar it('should do something', function() {}) syntax
+- Datasets para test data con ->with([])
+- beforeEach() y afterEach() para setup/cleanup
+- Assertions: expect($value)->toBe() style preferido
+- Architecture tests: arch()->expects()->toPass()
+  </pest_patterns>
 
 <backend_testing>
 

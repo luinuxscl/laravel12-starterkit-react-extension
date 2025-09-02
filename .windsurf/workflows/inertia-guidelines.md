@@ -7,40 +7,49 @@ auto_execution_mode: 1
 
 <inertia_patterns>
 
+- Components en resources/js/Pages (NO cambiar sin aprobación)
 - Usar Inertia::render() en controllers para páginas
 - Implementar proper page props typing
 - Usar Inertia::share() para datos globales
-- Implementar form handling con useForm hook
-- Usar router.visit() para navegación programática
+- Usar router.visit() o <Link> para navegación (NO traditional links)
 - Definir proper progress indicators
   </inertia_patterns>
 
-<data_sharing>
+<inertia_v2_features>
 
-- Compartir user data globalmente via middleware
-- Usar computed properties para datos derivados
-- Implementar lazy loading para datos pesados
-- Definir proper error pages (404, 500, etc.)
-- Usar flash messages para feedback de usuario
-- Implementar proper loading states
-  </data_sharing>
+- Polling: actualización automática de datos
+- Prefetching: pre-cargar páginas en hover/focus
+- Deferred props: cargar datos pesados asíncronamente
+- Infinite scrolling: merging props con WhenVisible
+- Lazy loading: datos on-demand en scroll
+- Form component: método recomendado para formularios
+  </inertia_v2_features>
+
+<deferred_props>
+
+- Usar para datos que toman tiempo en cargar
+- Implementar skeleton/empty states con animación
+- Pattern: cargar página rápido, datos después
+- Mostrar loading states apropiados
+- Definir proper error handling para deferred data
+  </deferred_props>
 
 <form_handling>
 
-- Usar useForm hook para formularios
+- PREFERIR <Form> component sobre useForm
+- <Form> incluye: errors, processing, wasSuccessful, recentlySuccessful
+- Opciones: resetOnError, resetOnSuccess, setDefaultsOnSuccess
+- useForm para control programático o conventions existentes
 - Implementar proper validation error display
-- Definir transform functions para datos complejos
-- Usar proper HTTP methods (PUT, PATCH, DELETE)
-- Implementar progress tracking para uploads
-- Definir proper success callbacks
+- Usar progress tracking para uploads
   </form_handling>
 
-<routing_integration>
+<navigation_patterns>
 
-- Usar route() helper en frontend
-- Definir proper route parameters typing
+- import { Link } from '@inertiajs/react'
+- <Link href="/">Home</Link> para navegación estándar
+- router.visit() para navegación programática
+- Usar route() helper en frontend con proper typing
 - Implementar proper 404 handling
-- Usar history.back() cuando sea apropiado
-- Definir proper breadcrumb navigation
-- Implementar proper title management
-  </routing_integration>
+- Definir proper title management per page
+  </navigation_patterns>
