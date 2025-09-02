@@ -51,16 +51,8 @@ Usuarios demo creados con `--dev` (password: `password`, solo dev):
 - `npm run lint`: ESLint (JS/TS/React)
 - `composer test`: Limpia caches y ejecuta tests
 
-## CI/CD (GitHub Actions)
-- `/.github/workflows/tests.yml`
-  - PHP 8.3, Node 22
-  - Base de datos SQLite en CI (`DB_CONNECTION=sqlite`)
-  - Migra antes de correr Pest
-- `/.github/workflows/lint.yml`
-  - PHP 8.3
-  - `npm ci` para instalaciones determinísticas
-  - Laravel Pint + Prettier + ESLint
-  - Ambos workflows permiten ejecución manual vía `workflow_dispatch`.
+## CI/CD
+Actualmente desactivado para desarrollo individual. Flujo local recomendado en `docs/ci-cd.md`.
 
 ## Roles y Permisos (Spatie)
 - Paquete: `spatie/laravel-permission` integrado.
