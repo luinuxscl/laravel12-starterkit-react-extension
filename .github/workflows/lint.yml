@@ -1,15 +1,9 @@
-name: linter
+name: linter (manual)
 
+# Nota: Pipeline unificado en .github/workflows/ci.yml
+# Este workflow queda sólo para ejecución manual cuando sea necesario.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - develop
-      - main
-  pull_request:
-    branches:
-      - develop
-      - main
 
 permissions:
   contents: write

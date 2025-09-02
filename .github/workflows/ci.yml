@@ -1,9 +1,27 @@
-name: tests (manual)
+name: ci
 
-# Nota: Pipeline unificado en .github/workflows/ci.yml
-# Este workflow queda sólo para ejecución manual cuando sea necesario.
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - develop
+      - main
+      - 'feature/**'
+      - 'docs/**'
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+  pull_request:
+    branches:
+      - develop
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   ci:
@@ -11,7 +29,6 @@ jobs:
     env:
       DB_CONNECTION: sqlite
       DB_DATABASE: database/database.sqlite
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,11 +46,10 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: Install Node Dependencies
-        run: npm ci
-
       - name: Install Dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        run: |
+          composer install --no-interaction --prefer-dist --optimize-autoloader
+          npm ci
 
       - name: Build Assets
         run: npm run build
@@ -50,5 +66,11 @@ jobs:
           touch database/database.sqlite
           php artisan migrate --graceful --ansi
 
-      - name: Tests
+      - name: PHP Style (Pint)
+        run: vendor/bin/pint --test
+
+      - name: Frontend Lint (ESLint)
+        run: npm run lint
+
+      - name: Tests (Pest)
         run: ./vendor/bin/pest

@@ -69,6 +69,8 @@ Usuarios demo creados con `--dev` (password: `password`, solo dev):
   - `auth.roles`: string[] con los roles del usuario
   - `auth.permissions`: string[] con permisos agregados
 
+Documentación completa: `docs/permissions.md`.
+
 ### Ejemplo de UI (Dashboard)
 - `resources/js/pages/dashboard.tsx`: muestra los roles y un gate simple que sólo renderiza una sección si el usuario tiene rol `admin` o `root`.
 
@@ -95,3 +97,9 @@ Route::get('admin-only', function () {
 
 ## Roadmap
 Ver `ROADMAP.md`. Trabajo por fases (F1–F6). Issues vinculadas en GitHub.
+
+## Documentación
+- `docs/permissions.md`: Roles y permisos (Spatie)
+- `docs/testing.md`: Testing (Pest, coverage, component tests)
+- `docs/ci-cd.md`: CI/CD (Actions, checks requeridos, branch protection)
+- `docs/frontend.md`: Frontend (Inertia 2, shadcn/ui, Tailwind 4)
