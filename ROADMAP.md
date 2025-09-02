@@ -70,6 +70,7 @@ _Objetivo: Implementar gestión avanzada de roles y permisos_
 - [ ] **Permission Gates**: Conditional rendering basado en permisos (parcial: helpers `hasAnyRole` en vistas de usuarios)
 - [ ] **User Dashboard**: Panel de administración de usuarios
 - [x] **Access Control**: UI responsive a permisos del usuario actual (oculta acciones según roles/propietario)
+- [x] **UI Feedback (Toasts)**: Toaster global para `flash.success/error` (componente `FlashToaster` en `app.tsx`)
 
 #### 2.4 Testing
 
