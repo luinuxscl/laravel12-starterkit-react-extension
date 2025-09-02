@@ -14,6 +14,9 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    env:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: database/database.sqlite
 
     steps:
       - name: Checkout
@@ -22,7 +25,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
+          php-version: '8.3'
           tools: composer:v2
           coverage: xdebug
 
@@ -46,6 +49,12 @@ jobs:
 
       - name: Generate Application Key
         run: php artisan key:generate
+
+      - name: Prepare SQLite and Migrate
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+          php artisan migrate --graceful --ansi
 
       - name: Tests
         run: ./vendor/bin/pest

@@ -1,6 +1,6 @@
 # Laravel 12 React Starter Kit Extension
 
-Extensión enterprise-ready del Laravel 12 React Starter Kit oficial.
+Extensión del Starter Kit oficial con React 19 + TypeScript + Inertia 2, Tailwind 4 y shadcn/ui, lista para entornos enterprise.
 
 - Backend: Laravel 12 (PHP 8.3)
 - Frontend: React 19 + TypeScript + Inertia v2
@@ -8,26 +8,19 @@ Extensión enterprise-ready del Laravel 12 React Starter Kit oficial.
 - Testing: Pest v4 (backend), Vitest (frontend)
 
 ## Requisitos
-- PHP 8.3, Composer
-- Node 22, npm 10
+- PHP 8.3.x (recomendado 8.3.6)
+- Node 20+ (en CI usamos 22) y npm 10+
+- Composer 2
 
 ## Setup rápido
 ```bash
+composer install
 cp .env.example .env
 php artisan key:generate
-
-# Instalar dependencias
-composer install
+mkdir -p database && touch database/database.sqlite
+php artisan migrate --graceful
 npm ci
-
-# Compilar assets
-npm run build
-```
-
-## Base de datos (dev)
-- SQLite por defecto. Asegúrate de tener el archivo `database/database.sqlite` creado:
-```bash
-touch database/database.sqlite
+npm run dev # o npm run build
 ```
 
 ## Comando de instalación
@@ -48,14 +41,26 @@ Usuarios demo creados con `--dev` (password: `password`, solo dev):
 
 ## Testing (backend)
 ```bash
-php artisan migrate --graceful
 ./vendor/bin/pest
 ```
 
-## CI (GitHub Actions)
-Workflows en `/.github/workflows/`:
-- tests.yml: instala deps, migra SQLite y corre Pest
-- lint.yml: Pint, ESLint y Prettier
+## Scripts útiles
+- `npm run dev`: Vite en modo desarrollo
+- `npm run build`: Build de assets
+- `npm run format`: Formateo con Prettier (resources/)
+- `npm run lint`: ESLint (JS/TS/React)
+- `composer test`: Limpia caches y ejecuta tests
+
+## CI/CD (GitHub Actions)
+- `/.github/workflows/tests.yml`
+  - PHP 8.3, Node 22
+  - Base de datos SQLite en CI (`DB_CONNECTION=sqlite`)
+  - Migra antes de correr Pest
+- `/.github/workflows/lint.yml`
+  - PHP 8.3
+  - `npm ci` para instalaciones determinísticas
+  - Laravel Pint + Prettier + ESLint
+  - Ambos workflows permiten ejecución manual vía `workflow_dispatch`.
 
 ## Roles y Permisos (Spatie)
 - Paquete: `spatie/laravel-permission` integrado.
@@ -83,14 +88,10 @@ Route::get('admin-only', function () {
 ### Comando de instalación y caché de permisos
 - `php artisan app:install` ejecuta `permission:cache-reset` al final para limpiar la caché de permisos/roles.
 
-## Ramas y PRs
-- Feature branches desde `develop`.
-- CI corre en los PRs. Merge sólo con checks en verde.
+## Convenciones
+- Commits: Conventional Commits
+- Estilo PHP: PSR-12 (Laravel Pint)
+- TypeScript estricto (evitar `any` no tipado)
 
-## Scripts npm útiles
-```bash
-npm run dev
-npm run build
-npm run lint
-npm run format
-```
+## Roadmap
+Ver `ROADMAP.md`. Trabajo por fases (F1–F6). Issues vinculadas en GitHub.
