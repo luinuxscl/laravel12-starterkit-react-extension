@@ -52,7 +52,11 @@ Usuarios demo creados con `--dev` (password: `password`, solo dev):
 - `composer test`: Limpia caches y ejecuta tests
 
 ## CI/CD
+<<<<<<< HEAD
 Actualmente desactivado para desarrollo individual. Flujo local recomendado en `docs/ci-cd.md`.
+=======
+- Actualmente desactivado para desarrollo individual. Flujo local recomendado en `docs/ci-cd.md`.
+>>>>>>> 3b1f4c0 (docs: reflect CI disabled in develop (README and docs/ci-cd.md))
 - Workflows disponibles (cuando se habiliten):
   - `.github/workflows/tests.yml`: PHP 8.3, Node 22, DB SQLite, migra y corre Pest
   - `.github/workflows/lint.yml`: Pint + Prettier + ESLint, `npm ci` determinístico
