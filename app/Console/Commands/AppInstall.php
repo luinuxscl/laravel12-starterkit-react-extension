@@ -67,6 +67,9 @@ class AppInstall extends Command
             $this->info('Usuarios demo creados con contraseña por defecto: "password"');
         }
 
+        // Resetear caché de permisos/roles
+        $this->call('permission:cache-reset');
+
         $this->info('Instalación completada.');
         return self::SUCCESS;
     }
