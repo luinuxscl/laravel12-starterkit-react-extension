@@ -1,5 +1,6 @@
 import AppLayout from '@/layouts/app-layout'
 import { hasAnyRole } from '@/lib/auth'
+import { hasPermission } from '@/lib/permissions'
 import type { Auth } from '@/types'
 import { routes } from '@/lib/routes'
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
@@ -19,6 +20,8 @@ export default function UsersCreate() {
     roles: [] as string[],
   })
 
+  const canCreate = hasPermission(auth, 'users.create') || hasAnyRole(auth, ['admin','root'])
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     post(routes.users.index())
@@ -33,7 +36,7 @@ export default function UsersCreate() {
           <Link href={routes.users.index()} className="text-blue-600 hover:underline">Volver</Link>
         </div>
 
-        {!hasAnyRole(auth, ['admin','root']) && (
+        {!canCreate && (
           <div className="rounded border border-amber-400 bg-amber-50 p-3 text-amber-700">
             No tienes permisos para crear usuarios (la Policy lo bloqueará si intentas enviar el formulario).
           </div>
@@ -69,7 +72,7 @@ export default function UsersCreate() {
             />
             {errors.password && <div className="mt-1 text-sm text-red-600">{errors.password}</div>}
           </div>
-          {hasAnyRole(auth, ['admin','root']) && (
+          {canCreate && (
             <div>
               <label className="block text-sm font-medium">Roles</label>
               <div className="mt-2 flex flex-wrap gap-3">
@@ -96,7 +99,7 @@ export default function UsersCreate() {
               {errors.roles && <div className="mt-1 text-sm text-red-600">{String(errors.roles)}</div>}
             </div>
           )}
-          <button disabled={processing} className="rounded bg-blue-600 px-4 py-2 text-white disabled:opacity-50">
+          <button disabled={processing || !canCreate} className="rounded bg-blue-600 px-4 py-2 text-white disabled:opacity-50">
             Guardar
           </button>
         </form>

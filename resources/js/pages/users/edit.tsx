@@ -1,5 +1,6 @@
 import AppLayout from '@/layouts/app-layout'
 import { hasAnyRole } from '@/lib/auth'
+import { hasPermission } from '@/lib/permissions'
 import type { Auth } from '@/types'
 import { routes } from '@/lib/routes'
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
@@ -23,8 +24,8 @@ export default function UsersEdit({ user }: { user: UserItem }) {
     roles: userRoles as string[],
   })
 
-  const canEdit = hasAnyRole(auth, ['admin', 'root']) || auth.user?.id === user.id
-  const canManageRoles = hasAnyRole(auth, ['admin', 'root'])
+  const canEdit = hasPermission(auth, 'users.update') || hasAnyRole(auth, ['admin', 'root']) || auth.user?.id === user.id
+  const canManageRoles = hasPermission(auth, 'users.update') || hasAnyRole(auth, ['admin', 'root'])
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -107,7 +108,7 @@ export default function UsersEdit({ user }: { user: UserItem }) {
             </div>
           )}
 
-          <button disabled={processing} className="rounded bg-blue-600 px-4 py-2 text-white disabled:opacity-50">
+          <button disabled={processing || !canEdit} className="rounded bg-blue-600 px-4 py-2 text-white disabled:opacity-50">
             Guardar cambios
           </button>
         </form>
