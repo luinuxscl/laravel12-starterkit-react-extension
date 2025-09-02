@@ -76,6 +76,10 @@ class UserController extends Controller
         // Sync roles on create if actor is admin/root
         $acting = $request->user();
         if ($request->has('roles') && $acting && ($acting->hasRole('admin') || $acting->hasRole('root'))) {
+            // Only root can assign the 'root' role
+            if (in_array('root', $data['roles'] ?? [], true) && ! $acting->hasRole('root')) {
+                abort(403, 'No autorizado a asignar rol root');
+            }
             $user->syncRoles($data['roles'] ?? []);
         }
 
@@ -123,6 +127,11 @@ class UserController extends Controller
             // Non-root cannot change roles of a root user
             if ($user->hasRole('root') && ! $acting->hasRole('root')) {
                 abort(403, 'No autorizado a modificar roles de un usuario root');
+            }
+
+            // Only root can assign the 'root' role
+            if (in_array('root', $data['roles'] ?? [], true) && ! $acting->hasRole('root')) {
+                abort(403, 'No autorizado a asignar rol root');
             }
 
             $user->syncRoles($data['roles'] ?? []);

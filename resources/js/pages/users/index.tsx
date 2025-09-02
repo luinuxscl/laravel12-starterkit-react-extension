@@ -1,6 +1,7 @@
 import AppLayout from '@/layouts/app-layout'
 import type { Auth } from '@/types'
 import { hasAnyRole } from '@/lib/auth'
+import { hasPermission } from '@/lib/permissions'
 import { routes } from '@/lib/routes'
 import { Head, Link, usePage, router } from '@inertiajs/react'
 import { useMemo, useState } from 'react'
@@ -22,7 +23,8 @@ export default function UsersIndex({ users, filters }: { users: Paginated<UserIt
   const [q, setQ] = useState<string>(filters?.q ?? '')
   const [deletingId, setDeletingId] = useState<number | null>(null)
 
-  const canManage = useMemo(() => hasAnyRole(auth, ['admin', 'root']), [auth])
+  const canManageByRole = useMemo(() => hasAnyRole(auth, ['admin', 'root']), [auth])
+  const canCreate = hasPermission(auth, 'users.create') || canManageByRole
 
   const onSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -60,7 +62,7 @@ export default function UsersIndex({ users, filters }: { users: Paginated<UserIt
               Buscar
             </button>
           </form>
-          {canManage && (
+          {canCreate && (
             <Link href={routes.users.create()} className="text-blue-600 hover:underline whitespace-nowrap">
               Crear
             </Link>
@@ -94,12 +96,12 @@ export default function UsersIndex({ users, filters }: { users: Paginated<UserIt
                       <Link href={routes.users.show(u.id)} className="text-blue-600 hover:underline">
                         Ver
                       </Link>
-                      {(canManage || auth.user?.id === u.id) && (
+                      {(hasPermission(auth, 'users.update') || canManageByRole || auth.user?.id === u.id) && (
                         <Link href={routes.users.edit(u.id)} className="text-blue-600 hover:underline">
                           Editar
                         </Link>
                       )}
-                      {canManage && auth.user?.id !== u.id && (
+                      {(hasPermission(auth, 'users.delete') || (canManageByRole && auth.user?.id !== u.id)) && (
                         <button
                           onClick={() => onDelete(u)}
                           className="text-red-600 hover:underline disabled:opacity-50"

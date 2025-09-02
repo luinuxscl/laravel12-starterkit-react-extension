@@ -1,5 +1,6 @@
 import AppLayout from '@/layouts/app-layout'
 import { hasAnyRole } from '@/lib/auth'
+import { hasPermission } from '@/lib/permissions'
 import type { Auth } from '@/types'
 import { routes } from '@/lib/routes'
 import { Head, Link, usePage } from '@inertiajs/react'
@@ -22,12 +23,12 @@ export default function UsersShow({ user }: { user: UserItem }) {
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold">{user.name}</h1>
           <div className="flex gap-3">
-            {(hasAnyRole(auth, ['admin', 'root']) || auth.user?.id === user.id) && (
+            {(hasPermission(auth, 'users.update') || hasAnyRole(auth, ['admin', 'root']) || auth.user?.id === user.id) && (
               <Link href={routes.users.edit(user.id)} className="text-blue-600 hover:underline">
                 Editar
               </Link>
             )}
-            {hasAnyRole(auth, ['admin', 'root']) && (
+            {(hasPermission(auth, 'users.delete') || hasAnyRole(auth, ['admin', 'root'])) && (
               <Link
                 as="button"
                 method="delete"
