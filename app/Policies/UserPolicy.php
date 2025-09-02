@@ -12,7 +12,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['root', 'admin']);
+        return $user->can('users.viewAny') || $user->hasRole('root');
     }
 
     /**
@@ -20,11 +20,11 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        if ($user->hasRole(['root', 'admin'])) {
-            return true;
+        if ($user->id === $model->id) {
+            return true; // Siempre puede verse a sí mismo
         }
 
-        return $user->id === $model->id;
+        return $user->can('users.view') || $user->hasRole('root');
     }
 
     /**
@@ -32,7 +32,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(['root', 'admin']);
+        return $user->can('users.create') || $user->hasRole('root');
     }
 
     /**
@@ -40,11 +40,11 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        if ($user->hasRole(['root', 'admin'])) {
-            return true;
+        if ($user->id === $model->id) {
+            return true; // Puede actualizar su propio perfil
         }
 
-        return $user->id === $model->id;
+        return $user->can('users.update') || $user->hasRole('root');
     }
 
     /**
@@ -57,7 +57,7 @@ class UserPolicy
             return false;
         }
 
-        return $user->hasRole(['root', 'admin']);
+        return $user->can('users.delete') || $user->hasRole('root');
     }
 
     /**

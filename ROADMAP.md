@@ -66,8 +66,12 @@ _Objetivo: Implementar gestión avanzada de roles y permisos_
 
 #### 2.3 Frontend Components
 
-- [x] **Role Management**: Componentes para asignar roles (UI en `users/edit.tsx` con checkboxes para admin/root)
-- [ ] **Permission Gates**: Conditional rendering basado en permisos (parcial: helpers `hasAnyRole` en vistas de usuarios)
+- [x] **Role Management**: Componentes para asignar roles (UI en `users/edit.tsx` y `users/create.tsx` con checkboxes para admin/root)
+- [ ] **Permission Gates** (PRIORIDAD ALTA): Conditional rendering basado en permisos
+  - [x] Backend: permisos `users.*` sembrados y asignados por rol (root/admin/standard)
+  - [x] Frontend: helper `hasPermission()` y guards aplicados en `users/index|show|create|edit`
+  - [ ] Tests: Feature/Browser para validar visibilidad y respuestas 403
+  - [ ] Docs: guía rápida de uso de permisos en React
 - [ ] **User Dashboard**: Panel de administración de usuarios
 - [x] **Access Control**: UI responsive a permisos del usuario actual (oculta acciones según roles/propietario)
 - [x] **UI Feedback (Toasts)**: Toaster global para `flash.success/error` (componente `FlashToaster` en `app.tsx`)

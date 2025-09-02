@@ -49,8 +49,8 @@ class BaseSystemSeeder extends Seeder
         $admin = Role::where('name', 'admin')->first();
         $standard = Role::where('name', 'standard')->first();
 
-        // Root todo acceso
-        $root?->givePermissionTo($permissions);
+        // Root: todo acceso (sincronizado para ser determinístico)
+        $root?->syncPermissions($permissions);
 
         // Admin acceso CRUD usuarios estándar
         $adminPermissions = [
@@ -60,13 +60,9 @@ class BaseSystemSeeder extends Seeder
             'users.update',
             'users.delete',
         ];
-        $admin?->givePermissionTo($adminPermissions);
+        $admin?->syncPermissions($adminPermissions);
 
-        // Standard: solo lectura
-        $standardPermissions = [
-            'users.viewAny',
-            'users.view',
-        ];
-        $standard?->givePermissionTo($standardPermissions);
+        // Standard: sin permisos de users.* por defecto
+        $standard?->syncPermissions([]);
     }
 }
