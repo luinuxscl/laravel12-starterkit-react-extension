@@ -30,10 +30,10 @@ _Objetivo: Establecer fundamentos sólidos_
 
 #### 1.3 Quality Gates
 
-- [ ] **CI/CD pipeline**: GitHub Actions con testing automático usando Pest
+- [x] **CI/CD pipeline**: GitHub Actions con testing automático usando Pest
 - [ ] **Code quality**: Pre-commit hooks (Pint ya disponible, tests automáticos)
-- [ ] **Documentation**: README inicial con setup instructions
-- [ ] **Linters Frontend**: ESLint + Prettier integrados y verificados en CI (React 19 + TypeScript)
+- [x] **Documentation**: README inicial con setup instructions
+- [x] **Linters Frontend**: ESLint + Prettier integrados y verificados en CI (React 19 + TypeScript)
 
 **Entregables Fase 1:**
 
