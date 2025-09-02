@@ -57,6 +57,32 @@ Workflows en `/.github/workflows/`:
 - tests.yml: instala deps, migra SQLite y corre Pest
 - lint.yml: Pint, ESLint y Prettier
 
+## Roles y Permisos (Spatie)
+- Paquete: `spatie/laravel-permission` integrado.
+- Props compartidas por Inertia desde `App\\Http\\Middleware\\HandleInertiaRequests`:
+  - `auth.user`: usuario autenticado
+  - `auth.roles`: string[] con los roles del usuario
+  - `auth.permissions`: string[] con permisos agregados
+
+### Ejemplo de UI (Dashboard)
+- `resources/js/pages/dashboard.tsx`: muestra los roles y un gate simple que sólo renderiza una sección si el usuario tiene rol `admin` o `root`.
+
+### Ruta protegida por rol
+- Ruta de ejemplo en `routes/web.php` dentro del grupo `auth` + `verified`:
+
+```php
+Route::get('admin-only', function () {
+    return response('Admin area', 200);
+})->middleware(['role:admin|root'])->name('admin.only');
+```
+
+### Middlewares registrados
+- En `bootstrap/app.php` se registran los alias de Spatie:
+  - `role`, `permission`, `role_or_permission`.
+
+### Comando de instalación y caché de permisos
+- `php artisan app:install` ejecuta `permission:cache-reset` al final para limpiar la caché de permisos/roles.
+
 ## Ramas y PRs
 - Feature branches desde `develop`.
 - CI corre en los PRs. Merge sólo con checks en verde.
