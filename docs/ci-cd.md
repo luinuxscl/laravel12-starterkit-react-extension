@@ -51,6 +51,9 @@ Flujo en serie, sin ramas paralelas por defecto. Pensado para ciclos de horas.
   - `git config --global rerere.enabled true`
 - Fast-forward-only hacia `main` (para merges locales):
   - Alias recomendado: `git config --global alias.ffmerge "merge --ff-only"`
+- Mensajes de commit en español (Conventional Commits):
+  - Plantilla: `.github/commit-message-template.md`
+  - Activar plantilla local: `git config commit.template .github/commit-message-template.md`
 
 ### Separación de cambios para evitar colisiones
 - Evitar editar `README.md` en múltiples features. Centralizar en un PR de cierre de fase.
@@ -58,3 +61,35 @@ Flujo en serie, sin ramas paralelas por defecto. Pensado para ciclos de horas.
 - Evitar refactors masivos en paralelo a features; planificar ventana y PR exclusivos.
 
 Con este enfoque, los conflictos tienden a cero porque reducimos la divergencia temporal y aislamos archivos de alta colisión.
+
+## Estrategia anti-conflictos (v2 – develop como rama de integración)
+
+Para más control: `main` solo se actualiza desde `develop`.
+
+### Ramas
+- `main`: estable. Solo merge desde `develop`.
+- `develop`: integración continua de features.
+- `feature/*`: una feature a la vez, nace desde `develop`.
+
+### Flujo
+1) Crear feature
+   - `git checkout develop && git pull`
+   - `git checkout -b feature/nombre-corto`
+   - Abrir PR como draft hacia `develop` y pushear temprano.
+2) Trabajo y pruebas
+   - Rebase frecuente: `git fetch origin && git rebase origin/develop`
+   - Checks locales: `vendor/bin/pint --test`, `npm run lint`, `./vendor/bin/pest`
+3) Merge a `develop`
+   - PR pequeño, “Squash and merge”. Borrar rama feature.
+4) Validación en `develop`
+   - Smoke tests + “uso real” guiado de flujos críticos.
+5) Promoción a `main`
+   - Fast-forward-only o rebase de `develop` → `main`.
+   - Tag de release (ej. `v0.2.0`).
+
+### Reglas clave
+- Rebase obligatorio antes de push/merge (feature→develop con `origin/develop`).
+- Separar docs y dependencias en PRs dedicados.
+- Mensajes de commit en español (plantilla en `.github/commit-message-template.md`).
+
+Ventajas: aísla `main`, reduce conflictos y permite validar en `develop` antes del release.

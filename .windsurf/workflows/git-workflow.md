@@ -11,7 +11,7 @@ auto_execution_mode: 1
 
 - Usar Conventional Commits format
 - Prefijos: feat:, fix:, docs:, style:, refactor:, test:, chore:
-- Escribir commit messages descriptivos
+- Escribir commit messages descriptivos y en español (obligatorio)
 - Usar imperative mood en subject line
 - Incluir issue numbers cuando aplicable
 - Mantener commits atómicos y enfocados
@@ -25,6 +25,14 @@ auto_execution_mode: 1
 - hotfix/*: solo si hay producción
 - Convención de nombres: kebab-case claro y corto (ej. `feature/policies-crud`)
   </branch_strategy>
+
+<branch_strategy_v2>
+
+- main: estable; solo se mergea desde develop
+- develop: rama de integración continua de features
+- feature/*: crea desde develop; una feature a la vez; PR pequeño hacia develop
+- fix/* y hotfix/*: según necesidad; preferir PRs pequeños
+  </branch_strategy_v2>
 
 <mcp_integration>
 
@@ -57,6 +65,15 @@ auto_execution_mode: 1
 - Tras merge: empezar la siguiente feature desde `main`
   </solo_dev_flow>
 
+<develop_flow_v2>
+
+- Crear feature: `git checkout develop && git pull` → `git checkout -b feature/nombre`
+- Trabajo: rebase frecuente con `origin/develop`; checks locales (Pint, ESLint, Pest)
+- PR a develop: pequeño, “Squash and merge”, borrar rama
+- Validación en develop: smoke tests y "uso real" de flujos críticos
+- Promoción a main: `git checkout main && git merge --ff-only develop` (o rebase) + tag
+  </develop_flow_v2>
+
 <anti_conflicts_v1>
 
 - Config Git recomendada (global):
@@ -69,3 +86,11 @@ auto_execution_mode: 1
 - Evitar refactors masivos en paralelo a features; planificar PR dedicado
 - Merge por “Squash and merge” en GitHub para mantener historial atómico
   </anti_conflicts_v1>
+
+<anti_conflicts_v2>
+
+- Rebase obligatorio antes de push/merge (feature→develop con `origin/develop`)
+- Separar docs y dependencias en PRs dedicados; evitar archivos ruidosos en paralelo
+- Commits en español con plantilla (`.github/commit-message-template.md`)
+- Branch protection recomendado: main protegido (solo PR desde develop); develop con squash-only y/o FF-only
+  </anti_conflicts_v2>
